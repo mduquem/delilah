@@ -36,13 +36,14 @@ exports.getProductById = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
    const { title, price, imageUrl, description } = req.body;
-
-   Product.create({
-      title,
-      price,
-      imageUrl,
-      description,
-   })
+   console.log('Inside add product');
+   req.user
+      .createProduct({
+         title,
+         price,
+         imageUrl,
+         description,
+      })
       .then((data) => {
          return res.status(200).json({
             message: 'Successfully created a new product',
@@ -55,7 +56,6 @@ exports.postAddProduct = (req, res, next) => {
             error,
          });
       });
-   next();
 };
 
 exports.putEditProduct = (req, res, next) => {

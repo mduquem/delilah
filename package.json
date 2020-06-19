@@ -1,0 +1,17 @@
+{
+   "name": "delilah",
+   "version": "0.0.1",
+   "description": "Delilah resto",
+   "main": "app.js",
+   "scripts": {
+      "dev": "nodemon app.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "author": "miguelduque",
+   "license": "ISC",
+   "dependencies": {
+      "express": "^4.17.1",
+      "mysql2": "^2.1.0",
+      "sequelize": "^5.21.13"
+   }
+}

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../utils/database');
 
-const Order = sequelize.define('order', {
+const Order = sequelize.define('Order', {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -16,11 +16,6 @@ const Order = sequelize.define('order', {
    paymentAmount: {
       type: Sequelize.DOUBLE,
       allowNull: false,
-   },
-
-   createdAt: {
-      type: Sequelize.DATE,
-      default: Date.now,
    },
 });
 

@@ -1,14 +1,9 @@
 const express = require('express');
-const sequelize = require('../utils/database');
-const Sequelize = require('sequelize');
+const { getAllProducts, postAddProduct } = require('../controllers/product');
 
-const router = express.Router();
+const Router = express.Router();
 
-router.use((req, res, next) => {
-   sequelize.query('SELECT * FROM Products');
-   res.send(200).json({
-      message: 'Hello world',
-   });
-});
+Router.get('/', getAllProducts);
+Router.post('/', postAddProduct);
 
-module.exports = router;
+module.exports = Router;

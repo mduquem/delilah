@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../utils/database');
 
-const Product = sequelize.define('product', {
+const Product = sequelize.define('Product', {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -24,10 +24,6 @@ const Product = sequelize.define('product', {
    description: {
       type: Sequelize.STRING,
       allowNull: false,
-   },
-   createdAt: {
-      type: Sequelize.DATE,
-      default: Date.now,
    },
 });
 

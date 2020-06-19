@@ -1,14 +1,9 @@
 const express = require('express');
-const sequelize = require('../utils/database');
-const Sequelize = require('sequelize');
+const { getAllUsers, postAddUser } = require('../controllers/user');
 
 const Router = express.Router();
 
-Router.get('/', () => {
-   console.log('Inside user');
-   sequelize.query('SELECT * FROM Users').then((res) => {
-      console.log(res);
-   });
-});
+Router.get('/', getAllUsers);
+Router.post('/', postAddUser);
 
 module.exports = Router;

@@ -1,4 +1,6 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const productRoutes = require('./routes/product');
 const adminRoutes = require('./routes/admin');
@@ -10,11 +12,13 @@ const sequelize = require('./utils/database');
 const app = express();
 
 const port = 8000;
+app.use(bodyParser.json());
 
 app.use('/product', productRoutes);
 app.use('/admin', adminRoutes);
 app.use('/order', orderRoutes);
 app.use('/user', userRoutes);
+app.use(cors);
 
 sequelize
    .sync()

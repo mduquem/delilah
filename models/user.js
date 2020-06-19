@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../utils/database');
 
-const Order = sequelize.define('order', {
+const Users = sequelize.define('User', {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -34,14 +34,9 @@ const Order = sequelize.define('order', {
       allowNull: false,
    },
    phone: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
-   },
-
-   createdAt: {
-      type: Sequelize.DATE,
-      default: Date.now,
    },
 });
 
-module.exports = Order;
+module.exports = Users;

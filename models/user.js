@@ -32,6 +32,7 @@ const Users = sequelize.define('User', {
    isAdmin: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
+      default: false,
    },
    phone: {
       type: Sequelize.STRING,

@@ -1,9 +1,7 @@
 const Product = require('../models/product');
-const sequelize = require('../utils/database');
 
 exports.getAllProducts = (req, res, next) => {
-   sequelize
-      .query('SELECT * FROM Products')
+   Product.findAll()
       .then((data) => {
          return res.status(200).json({
             message: 'All Products successfully retrieved',
@@ -19,6 +17,23 @@ exports.getAllProducts = (req, res, next) => {
    next();
 };
 
+exports.getProductById = (req, res, next) => {
+   const { productId } = req.body;
+   Product.findByPk(productId)
+      .then((data) => {
+         return res.status(200).json({
+            message: 'Successfully retrieved a single item',
+            data,
+         });
+      })
+      .catch((error) => {
+         return res.status(500).json({
+            message: '500 Internal Server Error',
+            error,
+         });
+      });
+};
+
 exports.postAddProduct = (req, res, next) => {
    const { title, price, imageUrl, description } = req.body;
 
@@ -30,7 +45,7 @@ exports.postAddProduct = (req, res, next) => {
    })
       .then((data) => {
          return res.status(200).json({
-            message: 'Successfully create a new product',
+            message: 'Successfully created a new product',
             data,
          });
       })
@@ -41,4 +56,50 @@ exports.postAddProduct = (req, res, next) => {
          });
       });
    next();
+};
+
+exports.putEditProduct = (req, res, next) => {
+   const productId = req.params.id;
+   const { title, price, imageUrl, description } = req.body;
+   Product.findByPk(productId)
+      .then((product) => {
+         product.title = title;
+         product.price = price;
+         product.imageUrl = imageUrl;
+         product.description = description;
+
+         return product.save();
+      })
+      .then((data) => {
+         return res.status(200).json({
+            message: 'Product edited successfully',
+            data,
+         });
+      })
+      .catch((error) => {
+         return res.status(500).json({
+            message: '500 Internal Server Error',
+            error,
+         });
+      });
+};
+
+exports.postDeleteProduct = (req, res, next) => {
+   const productId = req.params.id;
+   Product.findByPk(productId)
+      .then((product) => {
+         return product.destroy();
+      })
+      .then((data) => {
+         return res.status(200).json({
+            message: 'Product deleted successfully',
+            data,
+         });
+      })
+      .catch((error) => {
+         return res.status(500).json({
+            message: '500 Internal Server Error',
+            error,
+         });
+      });
 };

@@ -2,8 +2,7 @@ const User = require('../models/user');
 const sequelize = require('../utils/database');
 
 exports.getAllUsers = (req, res, next) => {
-   sequelize
-      .query('SELECT * FROM Users')
+   User.findAll()
       .then((data) => {
          return res.status(200).json({
             message: 'Successfully retrieved all users from database',

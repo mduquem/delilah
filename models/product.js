@@ -8,6 +8,7 @@ const Product = sequelize.define('Product', {
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
+      unique: true,
    },
    title: {
       type: Sequelize.STRING,
@@ -24,6 +25,14 @@ const Product = sequelize.define('Product', {
    description: {
       type: Sequelize.STRING,
       allowNull: false,
+   },
+   userId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+      references: {
+         model: 'Users',
+         key: 'id',
+      },
    },
 });
 

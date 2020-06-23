@@ -17,7 +17,7 @@ const Users = sequelize.define('User', {
       type: Sequelize.STRING,
       allowNull: false,
    },
-   email: {
+   phone: {
       type: Sequelize.STRING,
       allowNull: false,
    },
@@ -25,7 +25,12 @@ const Users = sequelize.define('User', {
       type: Sequelize.STRING,
       allowNull: false,
    },
-   password: {
+   email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+   },
+
+   encryptedPassword: {
       type: Sequelize.STRING,
       allowNull: false,
    },
@@ -34,9 +39,13 @@ const Users = sequelize.define('User', {
       allowNull: false,
       default: false,
    },
-   phone: {
-      type: Sequelize.STRING,
-      allowNull: false,
+   createdAt: {
+      type: Sequelize.DATE,
+      default: Date.now(),
+   },
+   updatedAt: {
+      type: Sequelize.DATE,
+      default: Date.now(),
    },
 });
 

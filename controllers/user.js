@@ -18,31 +18,28 @@ exports.getAllUsers = (req, res, next) => {
    next();
 };
 
-exports.postAddUser = (req, res, next) => {
+exports.postAddUser = async (req, res, next) => {
    console.log('REQUEST:BODY', req);
-   const { userName, fullName, email, address, password, phone, isAdmin } = req.body;
+   const { userName, fullName, email, address, encryptedPassword, phone, isAdmin } = req.body;
 
-   User.create({
-      userName,
-      fullName,
-      email,
-      address,
-      password,
-      phone,
-      isAdmin,
-   })
-      .then((data) => {
+   try {
+      const databaseResponse = await sequelize.query(
+         'INSERT INTO Users (userName, fullName, email, address, phone, isAdmin, encryptedPassword) VALUES (?,?,?,?,?,?,?)',
+         {
+            replacements: [userName, fullName, email, address, phone, isAdmin, encryptedPassword],
+         }
+      );
+      if (databaseResponse) {
          return res.status(200).json({
-            message: 'Successfully create a new user',
-            data,
+            message: '200',
+            response: databaseResponse,
          });
-      })
-      .catch((error) => {
-         return res.status(500).json({
-            message: '500 Internal Server Error',
-            error,
-         });
+      }
+      next();
+   } catch (error) {
+      return res.status(500).json({
+         message: '500 Internal Server Error',
+         error,
       });
-
-   next();
+   }
 };

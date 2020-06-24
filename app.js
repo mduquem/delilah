@@ -9,6 +9,8 @@ const userRoutes = require('./routes/user');
 
 const sequelize = require('./utils/database');
 
+const isAdmin = require('./middlewares/authenticateAdmin');
+
 const app = express();
 
 const port = 8000;
@@ -20,15 +22,15 @@ app.use(cors());
 // Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 
 app.use('/product', productRoutes);
-app.use('/admin', adminRoutes);
+app.use('/admin', [isAdmin], adminRoutes);
 app.use('/order', orderRoutes);
 app.use('/user', userRoutes);
 
 sequelize
    .sync()
-   .then((user) => {
+   .then((res) => {
       return app.listen(port, () => {
-         console.log('Server is running in port...', port);
+         console.log('Server is running in port...', port, 'with response');
       });
    })
    .catch((err) => console.log('ERRORRRRR', err));

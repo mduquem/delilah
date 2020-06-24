@@ -29,7 +29,6 @@ const Users = sequelize.define('User', {
       type: Sequelize.STRING,
       allowNull: false,
    },
-
    encryptedPassword: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -38,14 +37,6 @@ const Users = sequelize.define('User', {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       default: false,
-   },
-   createdAt: {
-      type: Sequelize.DATE,
-      default: Date.now(),
-   },
-   updatedAt: {
-      type: Sequelize.DATE,
-      default: Date.now(),
    },
 });
 

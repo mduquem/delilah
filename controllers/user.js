@@ -1,34 +1,25 @@
 const User = require('../models/user');
-const sequelize = require('../utils/database');
 
-exports.getAllUsers = (req, res, next) => {
-   User.findAll()
-      .then((data) => {
-         return res.status(200).json({
-            message: 'Successfully retrieved all users from database',
-            data,
-         });
-      })
-      .catch((error) => {
-         return res.status(500).json({
-            message: '500 Internal Server Error',
-            error,
-         });
-      });
-   next();
+exports.getOwnUser = async (req, res, next) => {
+   return res.status(200).json({
+      message: 'Hello',
+   });
 };
 
 exports.postAddUser = async (req, res, next) => {
-   console.log('REQUEST:BODY', req);
-   const { userName, fullName, email, address, encryptedPassword, phone, isAdmin } = req.body;
+   const { userName, fullName, email, address, password, phone } = req.body;
 
    try {
-      const databaseResponse = await sequelize.query(
-         'INSERT INTO Users (userName, fullName, email, address, phone, isAdmin, encryptedPassword) VALUES (?,?,?,?,?,?,?)',
-         {
-            replacements: [userName, fullName, email, address, phone, isAdmin, encryptedPassword],
-         }
-      );
+      const databaseResponse = await User.create({
+         userName,
+         fullName,
+         email,
+         address,
+         phone,
+         isAdmin: false,
+         encryptedPassword: password,
+      });
+
       if (databaseResponse) {
          return res.status(200).json({
             message: '200',
@@ -42,4 +33,16 @@ exports.postAddUser = async (req, res, next) => {
          error,
       });
    }
+};
+
+exports.putEditOwnUser = async (req, res, next) => {
+   return res.status(200).json({
+      message: 'Hello User',
+   });
+};
+
+exports.putDeleteOwnUser = async (req, res, next) => {
+   return res.status(200).json({
+      message: 'Hello User',
+   });
 };

@@ -7,7 +7,7 @@ const {
    putDeleteUserById,
    postAddProduct,
    putEditProductById,
-   putDeleteProductById,
+   deleteDeleteProductById,
    getAllOrders,
    postAddOrder,
    getOrderById,
@@ -28,7 +28,7 @@ Router.put('/user/delete/:id', putDeleteUserById);
 // PRODUCTS
 Router.post('/product', postAddProduct);
 Router.put('/product/edit/:id', putEditProductById);
-Router.put('/product/delete/:id', putDeleteProductById);
+Router.delete('/product/delete/:id', deleteDeleteProductById);
 
 // ORDERS
 Router.get('/order', getAllOrders);

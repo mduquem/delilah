@@ -17,22 +17,22 @@ const Order = sequelize.define('Order', {
       type: Sequelize.DOUBLE,
       allowNull: false,
    },
-   userId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-      references: {
-         model: 'Users',
-         key: 'id',
-      },
-   },
-   productId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-      references: {
-         model: 'Products',
-         key: 'id',
-      },
-   },
 });
 
+// userId: {
+//    allowNull: false,
+//    type: Sequelize.INTEGER,
+//    references: {
+//       model: 'Users',
+//       key: 'id',
+//    },
+// },
+// productId: {
+//    allowNull: false,
+//    type: Sequelize.INTEGER,
+//    references: {
+//       model: 'Products',
+//       key: 'id',
+//    },
+// },
 module.exports = Order;

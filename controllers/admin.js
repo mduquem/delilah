@@ -43,7 +43,7 @@ exports.putDeleteUserById = async (req, res, next) => {
 
 // PRODUCT ROUTES
 exports.postAddProduct = async (req, res, next) => {
-   const { title, price, imageUrl, description, userId } = req.body;
+   const { title, price, imageUrl, description } = req.body;
 
    try {
       const response = await Product.create({
@@ -51,13 +51,12 @@ exports.postAddProduct = async (req, res, next) => {
          price,
          imageUrl,
          description,
-         userId,
       });
 
       if (response) {
          return res.status(200).json({
             message: 'Successfully created a new product',
-            data,
+            response,
          });
       }
 
@@ -70,16 +69,47 @@ exports.postAddProduct = async (req, res, next) => {
    }
 };
 
-exports.putEditProductById = (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
+exports.putEditProductById = async (req, res, next) => {
+   const productId = req.params.id;
+   const { title, price, imageUrl, description } = req.body;
+   try {
+      Product.findByPk(productId).then((product) => {
+         product.title = title;
+         product.price = price;
+         product.imageUrl = imageUrl;
+         product.description = description;
+         return product.save();
+      });
+
+      return res.status(200).json({
+         message: 'Product updated successfully',
+      });
+   } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+         error: 500,
+         message: 'Internal Server Error',
+      });
+   }
 };
 
-exports.putDeleteProductById = (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
+exports.deleteDeleteProductById = async (req, res, next) => {
+   const productId = req.params.id;
+
+   try {
+      const product = await Product.findByPk(productId);
+
+      const response = await product.destroy();
+      return res.status(200).json({
+         message: 'Product deleted succesfully',
+         response,
+      });
+   } catch (error) {
+      return res.status(500).json({
+         error: 500,
+         message: 'Internal Server Error',
+      });
+   }
 };
 
 // ORDER ROUTES

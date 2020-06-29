@@ -6,7 +6,8 @@ Delilah resto is the third project for acamica's full stack web development care
 It features users, products, and orders entities as objects in a traditional REST API + MySql database
 
 To run locally please clone this repository and follow the next commands
-npm install && npm run dev
+
+    npm install && npm run dev
 
 This will get the docket container to run the database server and connect it to our API.
 

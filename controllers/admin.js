@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Order = require('../models/order');
 
 // USER ROUTES
 exports.getAllUsers = (req, res, next) => {
@@ -16,29 +17,6 @@ exports.getAllUsers = (req, res, next) => {
          });
       });
    next();
-};
-
-exports.postAddAdminUser = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello World',
-   });
-};
-
-exports.getUserById = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
-};
-
-exports.putEditUserById = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
-};
-exports.putDeleteUserById = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
 };
 
 // PRODUCT ROUTES
@@ -98,7 +76,6 @@ exports.deleteDeleteProductById = async (req, res, next) => {
 
    try {
       const product = await Product.findByPk(productId);
-
       const response = await product.destroy();
       return res.status(200).json({
          message: 'Product deleted succesfully',
@@ -113,42 +90,51 @@ exports.deleteDeleteProductById = async (req, res, next) => {
 };
 
 // ORDER ROUTES
-exports.getAllOrders = (req, res, next) => {
-   Order.findAll()
-      .then((data) => {
-         return res.status(200).json({
-            message: 'Successfully retrieved all users from database',
-            data,
+exports.getAllOrders = async (req, res, next) => {
+   try {
+      const orders = await Order.findAll();
+      if (orders.length === 0) {
+         return res.status(404).json({
+            error: 404,
+            message: 'No Orders Available',
          });
-      })
-      .catch((error) => {
-         return res.status(500).json({
-            message: '500 Internal Server Error',
-            error,
-         });
+      }
+      return res.status(200).json({
+         message: 'Successfully retrieved all orders from database',
+         orders,
       });
-   next();
-};
-
-exports.postAddOrder = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
-};
-
-exports.getOrderById = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
+   } catch (error) {
+      console.log('ERRRRROR', error);
+      return res.status(500).json({
+         message: '500 Internal Server Error',
+         error,
+      });
+   }
 };
 
 exports.putEditOrderById = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
-};
-exports.putDeleteOrderById = async (req, res, next) => {
-   return res.status(200).json({
-      message: 'Hello User',
-   });
+   const orderId = req.params.id;
+   const { status } = req.body;
+   try {
+      const order = await Order.findByPk(orderId);
+      if (!order) {
+         return res.status(404).json({
+            error: 404,
+            message: 'Order Not Found',
+         });
+      }
+
+      order.status = status;
+
+      await order.save();
+
+      return res.status(200).json({
+         message: 'Order Updated Successfully',
+      });
+   } catch (error) {
+      return res.status(500).json({
+         error: 500,
+         message: 'Internal Server Error',
+      });
+   }
 };

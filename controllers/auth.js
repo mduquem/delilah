@@ -42,6 +42,19 @@ exports.postRegisterUser = async (req, res, next) => {
    const encryptedPassword = await bcrypt.hash(password, 10);
 
    try {
+      const user = await User.findAll({
+         where: {
+            email: email,
+         },
+      });
+
+      if (user.length > 0) {
+         return res.status(403).json({
+            error: 403,
+            message: 'Email already in use. ',
+         });
+      }
+
       const databaseResponse = await User.create({
          userName,
          fullName,

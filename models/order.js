@@ -10,8 +10,9 @@ const Order = sequelize.define('Order', {
       primaryKey: true,
    },
    status: {
-      type: Sequelize.STRING,
+      type: Sequelize.ENUM,
       allowNull: false,
+      values: ['active', 'pending', 'delivered', 'canceled'],
    },
    paymentAmount: {
       type: Sequelize.DOUBLE,
@@ -19,20 +20,4 @@ const Order = sequelize.define('Order', {
    },
 });
 
-// userId: {
-//    allowNull: false,
-//    type: Sequelize.INTEGER,
-//    references: {
-//       model: 'Users',
-//       key: 'id',
-//    },
-// },
-// productId: {
-//    allowNull: false,
-//    type: Sequelize.INTEGER,
-//    references: {
-//       model: 'Products',
-//       key: 'id',
-//    },
-// },
 module.exports = Order;

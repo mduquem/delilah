@@ -22,23 +22,15 @@ const { verifyToken } = require('./middlewares/jwt');
 
 const app = express();
 
-const port = 8000;
+const port = 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
 
-User.hasMany(Product);
+User.hasMany(Order, { as: 'orders' });
 
-User.hasMany(Order);
-Order.belongsTo(User);
-
-Product.belongsToMany(Order, { through: ProductOrder });
-// Order.belongsToMany(Product, { through: OrderProduct, unique: false });
-
-// Product.belongsToMany(Order, {
-//    through: 'ProductOrders',
-//    as: ' orders',
-// });
+Product.belongsToMany(Order, { through: 'ProductOrder' });
+Order.belongsToMany(Product, { through: 'ProductOrder' });
 
 app.use('/product', productRoutes);
 app.use('/auth', authRoutes);
@@ -47,7 +39,7 @@ app.use('/user', [verifyToken], userRoutes);
 app.use('/admin', [verifyToken, isAdmin], adminRoutes);
 
 sequelize
-   .sync({ force: true })
+   .sync()
    .then((result) => {
       return User.findByPk(1);
    })

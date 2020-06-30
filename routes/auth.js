@@ -4,6 +4,5 @@ const { postRegisterUser, postLoginUser, postLogoutUser } = require('../controll
 
 Router.post('/register', postRegisterUser);
 Router.post('/login', postLoginUser);
-Router.post('/logout', postLogoutUser);
 
 module.exports = Router;

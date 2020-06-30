@@ -1,5 +1,5 @@
 const express = require('express');
-const { postAddOrder, getOwnOrder, putEditOwnOrder } = require('../controllers/order');
+const { postAddOrder, getOwnOrder } = require('../controllers/order');
 
 const Router = express.Router();
 

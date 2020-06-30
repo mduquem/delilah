@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const productRoutes = require('./routes/product');
 const adminRoutes = require('./routes/admin');
 const orderRoutes = require('./routes/order');
-const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 
 const sequelize = require('./utils/database');
@@ -15,7 +14,6 @@ const User = require('./models/user');
 const Product = require('./models/product');
 
 const Order = require('./models/order');
-const ProductOrder = require('./models/productOrder');
 
 const { isAdmin } = require('./middlewares/authenticateAdmin');
 const { verifyToken } = require('./middlewares/jwt');
@@ -35,7 +33,6 @@ Order.belongsToMany(Product, { through: 'ProductOrder' });
 app.use('/product', productRoutes);
 app.use('/auth', authRoutes);
 app.use('/order', [verifyToken], orderRoutes);
-app.use('/user', [verifyToken], userRoutes);
 app.use('/admin', [verifyToken, isAdmin], adminRoutes);
 
 sequelize

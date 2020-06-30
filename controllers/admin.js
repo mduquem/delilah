@@ -1,4 +1,6 @@
 const Product = require('../models/product');
+const User = require('../models/user');
+
 const Order = require('../models/order');
 
 // USER ROUTES
@@ -16,7 +18,6 @@ exports.getAllUsers = (req, res, next) => {
             error,
          });
       });
-   next();
 };
 
 // PRODUCT ROUTES

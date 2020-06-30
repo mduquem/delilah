@@ -3,9 +3,6 @@ const User = require('../models/user');
 const Product = require('../models/product');
 
 exports.postAddOrder = async (req, res, next) => {
-   const email = req.user;
-   console.log('USERRRR', email);
-
    const { products } = req.body;
 
    try {
@@ -20,12 +17,27 @@ exports.postAddOrder = async (req, res, next) => {
 
       const totalAmount = 0;
 
+      if (products.length === 0) {
+         const { id, quantity } = products[0];
+         const retrievedProduct = await Product.findByPk(id);
+         if (!retrievedProduct) {
+            console.log('ERRRRROROROROROROr');
+            return res.status(404).json({
+               error: 404,
+               message: 'Product Not Found',
+            });
+         }
+
+         const totalProductPrice = retrievedProduct.price * quantity;
+
+         return (totalAmount += totalProductPrice);
+      }
+
       products.map(async (product) => {
          const { id, quantity } = product;
          const retrievedProduct = await Product.findByPk(id);
 
          if (!retrievedProduct) {
-            console.log('ERRORRRRRRR');
             return res.status(404).json({
                error: 404,
                message: 'Product Not Found',
@@ -69,7 +81,6 @@ exports.postAddOrder = async (req, res, next) => {
          response,
       });
    } catch (error) {
-      console.log('ERRRRRO', error);
       return res.status(200).json({
          message: 'Hello User',
          error,
@@ -103,7 +114,6 @@ exports.getOwnOrder = async (req, res, next) => {
          order,
       });
    } catch (error) {
-      console.log('ERRORRRR', error);
       return res.status(500).json({
          error: 500,
          message: 'Internal Server Error',

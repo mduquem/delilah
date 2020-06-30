@@ -1,0 +1,629 @@
+openapi: 3.0.0
+info:
+   title: delilah
+   version: '1.0'
+   license:
+      name: MIT
+   description: Delilah Resto API
+servers:
+   - url: 'localhost:3000'
+     description: ''
+paths:
+   /admin/user:
+      get:
+         summary: GET All Users
+         tags:
+            - admin
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Successfully retrieved all users from database
+                              data:
+                                 - id: 1
+                                   userName: SuperAdmin
+                                   fullName: Super Admin
+                                   phone: '3108274440'
+                                   address: Calle 14
+                                   email: admin@gmail.com
+                                   encryptedPassword: $2b$10$kGXZXMSjfb.GCgG1kggnV.lx68PIFynSu.d6M2I5sP/YSZe/85jMe
+                                   isAdmin: true
+                                   createdAt: '2020-06-29T20:38:15.000Z'
+                                   updatedAt: '2020-06-29T20:38:15.000Z'
+                                 - id: 2
+                                   userName: mduquem
+                                   fullName: 'A DIFFERENT User '
+                                   phone: '3108274440'
+                                   address: Calle 13
+                                   email: test@test.com
+                                   encryptedPassword: $2b$10$.cvOVYnbPKnQcR93FSBF9.Br5CO1Gw5dZPgrRLPSj33SwI7EbkgKO
+                                   isAdmin: false
+                                   createdAt: '2020-06-29T20:38:51.000Z'
+                                   updatedAt: '2020-06-29T20:38:51.000Z'
+         operationId: get-admin-user
+         description: Lists all registered users on the platform
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: Authorization
+              description: |
+                 JWT token
+   '/admin/product/delete/{id}':
+      delete:
+         summary: DELETE product
+         operationId: delete-admin-product-delete-id
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Product deleted succesfully
+                              response:
+                                 id: 1
+                                 title: New
+                                 price: 2
+                                 imageUrl: image
+                                 description: New description
+                                 createdAt: '2020-06-29T20:38:42.000Z'
+                                 updatedAt: '2020-06-30T20:04:55.000Z'
+         description: ''
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: Authorization
+              description: JWT Token
+      parameters:
+         - schema:
+              type: string
+           name: id
+           in: path
+           required: true
+   '/admin/product/edit/{id}':
+      put:
+         summary: PUT Edit Product
+         tags:
+            - admin
+         responses:
+            '200':
+               description: Ok
+         operationId: 'put-admin-product-edit-:id'
+         description: ''
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties:
+                        '':
+                           type: string
+                  examples:
+                     example-1:
+                        value:
+                           title: New
+                           price: 2
+                           imageUrl: image
+                           description: New description
+            description: |-
+               {
+                   "title": "New",
+                   "price": 2,
+                   "imageUrl": "image",
+                   "description": "New description"
+               }
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: Authorizations
+              description: JWT token
+      parameters:
+         - schema:
+              type: string
+           name: id
+           in: path
+           required: true
+   /admin/product:
+      post:
+         summary: POST New Product
+         tags:
+            - admin
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Successfully created a new product
+                              response:
+                                 id: 4
+                                 title: New Product
+                                 price: 2000.5
+                                 imageUrl: New Image Url
+                                 description: The most amazing product
+                                 updatedAt: '2020-06-30T20:01:45.848Z'
+                                 createdAt: '2020-06-30T20:01:45.848Z'
+         operationId: post-admin-product
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties:
+                        title:
+                           type: string
+                        price:
+                           type: number
+                        imageUrl:
+                           type: string
+                        description:
+                           type: string
+                  examples:
+                     example-1:
+                        value:
+                           title: New Product
+                           price: 2000.5
+                           imageUrl: New Image Url
+                           description: The most amazing product
+            description: |
+               {
+                   "title": "New Product",
+                   "price": 2000.5,
+                   "imageUrl": "New Image Url",
+                   "description":"The most amazing product"
+               }
+         description: Creates a new product only under authenticated Admin credentials
+   /admin/order:
+      get:
+         summary: GET All Orders
+         tags:
+            - admin
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Successfully retrieved all orders from database
+                              orders:
+                                 - id: 1
+                                   status: active
+                                   paymentAmount: 400
+                                   createdAt: '2020-06-29T20:39:09.000Z'
+                                   updatedAt: '2020-06-29T20:55:51.000Z'
+                                   UserId: 2
+                                 - id: 2
+                                   status: active
+                                   paymentAmount: 0
+                                   createdAt: '2020-06-29T20:47:08.000Z'
+                                   updatedAt: '2020-06-29T20:56:12.000Z'
+                                   UserId: 2
+         operationId: get-admin-order
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: Authorization
+              description: JWT Token
+   '/admin/order/edit/{id}':
+      parameters:
+         - schema:
+              type: string
+           name: id
+           in: path
+           required: true
+      put:
+         summary: PUT Edit Order
+         tags:
+            - admin
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Order Updated Successfully
+         operationId: put-admin-order-edit-id
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties: {}
+                  examples:
+                     example-1:
+                        value:
+                           status: active
+            description: |-
+               {
+                   "status": "active"
+               }
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: 'Authorization '
+              description: JWT Token
+         description: ''
+   /auth/register:
+      post:
+         summary: POST Register New User
+         tags:
+            - users
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: '200'
+                              response:
+                                 token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJ1c2VyTmFtZSI6Im1kdXF1ZW0iLCJmdWxsTmFtZSI6IkEgRElGRkVSRU5UIFVzZXIgIiwiZW1haWwiOiJ0ZXN0MUB0ZXN0LmNvbSIsImFkZHJlc3MiOiJDYWxsZSAxMyIsInBob25lIjoiMzEwODI3NDQ0MCIsImlzQWRtaW4iOmZhbHNlLCJlbmNyeXB0ZWRQYXNzd29yZCI6IiQyYiQxMCRHeDNzaE1Ic05BQ2EyZXgvb08uc3MuWXJxUzJuODVxL3duVzNKbmtPcVlNMDd5YmtGci4ybSIsInVwZGF0ZWRBdCI6IjIwMjAtMDYtMzBUMjA6MTQ6NDQuNTUzWiIsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMzBUMjA6MTQ6NDQuNTUzWiJ9LCJpYXQiOjE1OTM1NDgwODQsImV4cCI6MTU5MzU1MTY4NH0.mft5DAWlyWBgoxmacT57cqQ_jAmnUoD1OIoeeHlM0cI
+         operationId: post-auth-register
+         description: ''
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties: {}
+                  examples:
+                     example-1:
+                        value:
+                           userName: mduquem
+                           fullName: 'A DIFFERENT User '
+                           email: test1@test.com
+                           address: Calle 13
+                           password: test
+                           phone: '3108274440'
+                           isAdmin: true
+            description: |-
+               {
+                   "userName": "mduquem",
+                   "fullName": "A DIFFERENT User ",
+                   "email": "test1@test.com",
+                   "address": "Calle 13",
+                   "password": "test",
+                   "phone": "3108274440",
+                   "isAdmin": true
+               }
+   /auth/login:
+      post:
+         summary: POST Login User
+         tags:
+            - user
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Success
+                              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyTmFtZSI6IlN1cGVyQWRtaW4iLCJmdWxsTmFtZSI6IlN1cGVyIEFkbWluIiwicGhvbmUiOiIzMTA4Mjc0NDQwIiwiYWRkcmVzcyI6IkNhbGxlIDE0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJlbmNyeXB0ZWRQYXNzd29yZCI6IiQyYiQxMCRrR1haWE1TamZiLkdDZ0cxa2dnblYubHg2OFBJRnluU3UuZDZNMkk1c1AvWVNaZS84NWpNZSIsImlzQWRtaW4iOnRydWUsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMjlUMjA6Mzg6MTUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjAtMDYtMjlUMjA6Mzg6MTUuMDAwWiJ9LCJpYXQiOjE1OTM1NDgxMTcsImV4cCI6MTU5MzU1MTcxN30.NHrXlducG9bLuMZkNGvEueqEeaeXBQLAtFCkPH2VgT0
+         operationId: post-auth-login
+         parameters: []
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties: {}
+                  examples:
+                     example-1:
+                        value:
+                           email: admin@gmail.com
+                           password: superAdmin
+            description: |-
+               {
+                   "email":"admin@gmail.com",
+                   "password":"superAdmin"
+               }
+   /order:
+      post:
+         summary: POST New Order
+         tags:
+            - users
+         responses:
+            '200':
+               description: |-
+                  {
+                      "message": "Order created successfully",
+                      "response": {
+                          "id": 1,
+                          "userName": "SuperAdmin",
+                          "fullName": "Super Admin",
+                          "phone": "3108274440",
+                          "address": "Calle 14",
+                          "email": "admin@gmail.com",
+                          "encryptedPassword": "$2b$10$kGXZXMSjfb.GCgG1kggnV.lx68PIFynSu.d6M2I5sP/YSZe/85jMe",
+                          "isAdmin": true,
+                          "createdAt": "2020-06-29T20:38:15.000Z",
+                          "updatedAt": "2020-06-29T20:38:15.000Z"
+                      }
+                  }
+         operationId: post-order
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties: {}
+                  examples:
+                     example-1:
+                        value:
+                           products:
+                              - id: 2
+                                quantity: 5
+                              - id: 3
+                                quantity: 5
+            description: |-
+               {
+                   "products": [
+                       {
+                           "id": 2,
+                           "quantity": 5
+                       },
+                         {
+                           "id": 3,
+                           "quantity": 5
+                       }
+                   
+                   ]
+               }
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: Authorization
+         description: ''
+      get:
+         summary: GET Own Order
+         tags:
+            - users
+         responses:
+            '200':
+               description: Ok
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Success
+                              order:
+                                 - id: 12
+                                   status: pending
+                                   paymentAmount: 0
+                                   createdAt: '2020-06-30T20:29:41.000Z'
+                                   updatedAt: '2020-06-30T20:29:41.000Z'
+                                   UserId: 1
+                                   Products:
+                                      - id: 2
+                                        title: THIR OR FOURH
+                                        price: 2000.5
+                                        imageUrl: IMAGE URLLLLLLLLLLL
+                                        description: AAMAAAAAAZING DESCRIPTION
+                                        createdAt: '2020-06-29T20:38:44.000Z'
+                                        updatedAt: '2020-06-29T20:38:44.000Z'
+                                        ProductOrder:
+                                           id: 9
+                                           quantity: 5
+                                           createdAt: '2020-06-30T20:29:41.000Z'
+                                           updatedAt: '2020-06-30T20:29:41.000Z'
+                                           ProductId: 2
+                                           OrderId: 12
+                                      - id: 3
+                                        title: THIR OR FOURH
+                                        price: 2000.5
+                                        imageUrl: IMAGE URLLLLLLLLLLL
+                                        description: AAMAAAAAAZING DESCRIPTION
+                                        createdAt: '2020-06-29T20:38:45.000Z'
+                                        updatedAt: '2020-06-29T20:38:45.000Z'
+                                        ProductOrder:
+                                           id: 10
+                                           quantity: 5
+                                           createdAt: '2020-06-30T20:29:42.000Z'
+                                           updatedAt: '2020-06-30T20:29:42.000Z'
+                                           ProductId: 3
+                                           OrderId: 12
+         operationId: get-order
+         parameters:
+            - schema:
+                 type: string
+              in: header
+              name: Authorization
+         requestBody:
+            content:
+               application/json:
+                  schema:
+                     type: object
+                     properties: {}
+                  examples:
+                     example-1:
+                        value:
+                           orderId: 12
+            description: |-
+               {
+                   "orderId": 12
+               }
+   /product:
+      get:
+         summary: GET All Products
+         tags:
+            - users
+         responses:
+            '200':
+               description: OK
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: 'Success: 200'
+                              data:
+                                 - id: 1
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-29T20:38:44.000Z'
+                                   updatedAt: '2020-06-29T20:38:44.000Z'
+                                 - id: 2
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-29T20:38:44.000Z'
+                                   updatedAt: '2020-06-29T20:38:44.000Z'
+                                 - id: 3
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-29T20:38:45.000Z'
+                                   updatedAt: '2020-06-29T20:38:45.000Z'
+                                 - id: 4
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:01:45.000Z'
+                                   updatedAt: '2020-06-30T20:01:45.000Z'
+                                 - id: 5
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:06:14.000Z'
+                                   updatedAt: '2020-06-30T20:06:14.000Z'
+                                 - id: 6
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:19:20.000Z'
+                                   updatedAt: '2020-06-30T20:19:20.000Z'
+                                 - id: 7
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:19:22.000Z'
+                                   updatedAt: '2020-06-30T20:19:22.000Z'
+                                 - id: 8
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:19:23.000Z'
+                                   updatedAt: '2020-06-30T20:19:23.000Z'
+                                 - id: 9
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:20:50.000Z'
+                                   updatedAt: '2020-06-30T20:20:50.000Z'
+                                 - id: 10
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:20:52.000Z'
+                                   updatedAt: '2020-06-30T20:20:52.000Z'
+                                 - id: 11
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:29:13.000Z'
+                                   updatedAt: '2020-06-30T20:29:13.000Z'
+                                 - id: 12
+                                   title: THIR OR FOURH
+                                   price: 2000.5
+                                   imageUrl: IMAGE URLLLLLLLLLLL
+                                   description: AAMAAAAAAZING DESCRIPTION
+                                   createdAt: '2020-06-30T20:29:26.000Z'
+                                   updatedAt: '2020-06-30T20:29:26.000Z'
+         operationId: get-product
+   '/product/{id}':
+      parameters:
+         - schema:
+              type: string
+           name: id
+           in: path
+           required: true
+      get:
+         summary: GET Product By Id
+         tags: []
+         responses:
+            '200':
+               description: OK
+               content:
+                  application/json:
+                     schema:
+                        type: object
+                        properties: {}
+                     examples:
+                        example-1:
+                           value:
+                              message: Product retrieved successfully
+                              product:
+                                 id: 4
+                                 title: THIR OR FOURH
+                                 price: 2000.5
+                                 imageUrl: IMAGE URLLLLLLLLLLL
+                                 description: AAMAAAAAAZING DESCRIPTION
+                                 createdAt: '2020-06-30T20:01:45.000Z'
+                                 updatedAt: '2020-06-30T20:01:45.000Z'
+         operationId: get-product-id
+components:
+   schemas: {}
+   securitySchemes:
+      API Key - 1:
+         type: http
+         scheme: bearer

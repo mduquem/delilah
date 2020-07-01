@@ -139,3 +139,28 @@ exports.putEditOrderById = async (req, res, next) => {
       });
    }
 };
+
+exports.deleteOrderById = async (req, res, next) => {
+   const orderId = req.params.id;
+   try {
+      const order = await Order.findByPk(orderId);
+      if (!order) {
+         return res.status(404).json({
+            error: 404,
+            message: 'Order Not Found',
+         });
+      }
+
+      const response = await order.destroy();
+
+      return res.status(200).json({
+         message: 'Order Updated Successfully',
+         response,
+      });
+   } catch (error) {
+      return res.status(500).json({
+         error: 500,
+         message: 'Internal Server Error',
+      });
+   }
+};

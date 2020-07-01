@@ -6,6 +6,7 @@ const {
    deleteDeleteProductById,
    getAllOrders,
    putEditOrderById,
+   deleteOrderById,
 } = require('../controllers/admin');
 
 const Router = express.Router();
@@ -22,5 +23,6 @@ Router.delete('/product/delete/:id', deleteDeleteProductById);
 // ORDERS
 Router.get('/order', getAllOrders);
 Router.put('/order/edit/:id', putEditOrderById);
+Router.delete('/order/:id', deleteOrderById);
 
 module.exports = Router;

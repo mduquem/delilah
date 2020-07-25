@@ -5,7 +5,7 @@
 Delilah resto is the third project for acamica's full stack web development career.
 It features users, products, and orders entities as objects in a traditional REST API + MySql database.
 
-You would need to install [Docker](https://docs.docker.com/get-docker/) first in order to run this package.
+You need to install [Docker](https://docs.docker.com/get-docker/) first in order to run this package.
 
 To run locally please clone this repository and run the following next commands:
 
